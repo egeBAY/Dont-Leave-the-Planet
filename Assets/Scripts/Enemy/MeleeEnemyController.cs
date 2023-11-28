@@ -13,11 +13,13 @@ public class MeleeEnemyController : MonoBehaviour
     private float cooldownTimer = Mathf.Infinity;
 
     private Animator anim;
+    private Animator swordAnim;
     private HealthController playerHealth;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        swordAnim = transform.Find("Sword").GetComponent<Animator>();
     }
 
     private void Update()
@@ -31,7 +33,8 @@ public class MeleeEnemyController : MonoBehaviour
                 //Attack
                 Debug.Log("Attacked!!");
                 cooldownTimer = 0f;
-                //anim.SetTrigger("");
+                anim.SetTrigger("meleeAttack");
+                swordAnim.SetTrigger("swing");
             }
         }
     }
