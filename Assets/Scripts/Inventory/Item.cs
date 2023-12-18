@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item
+[CreateAssetMenu]
+public class Item : ScriptableObject
 {
     public enum ItemType
     {
@@ -11,10 +12,12 @@ public class Item
         Gun,
         IceResource,
         FireResource,
+        Gunpowder
     }
 
     public ItemType itemType;
     public int amount;
+    public int dropChance;
 
     public Sprite GetSprite()
     {
@@ -24,6 +27,7 @@ public class Item
             case ItemType.Sword:        return ItemData.instance.swordSprite;
             case ItemType.Gun:          return ItemData.instance.gunSprite;
             case ItemType.IceResource:  return ItemData.instance.iceResourceSprite;
+            case ItemType.Gunpowder:    return ItemData.instance.gunpowderSprite;
         }
     }
 
@@ -34,6 +38,7 @@ public class Item
             default :
             case ItemType.IceResource:
             case ItemType.FireResource:
+            case ItemType.Gunpowder:
                 return true;
             case ItemType.Gun:
             case ItemType.Sword:

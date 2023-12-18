@@ -28,8 +28,6 @@ public class PlayerController : MonoBehaviour
         uiInventory.SetInventory(inventoryManager);
 
         uiInventory.gameObject.SetActive(false);
-
-        ItemWorld.SpawnItemWorld(new Vector3(2, 0), new Item { itemType = Item.ItemType.Gun, amount = 1 });
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,6 +38,11 @@ public class PlayerController : MonoBehaviour
         {
             inventoryManager.AddItem(itemWorld.GetItem());
             itemWorld.SelfDestroy();
+        }
+
+        if(collision.gameObject.tag == "Checkpoint")
+        {
+            Checkpoint.checkPointInstance.OpenCraftingMenu();
         }
     }
 

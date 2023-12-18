@@ -16,4 +16,5 @@ public class ItemData : MonoBehaviour
     public Sprite swordSprite;
     public Sprite gunSprite;
     public Sprite iceResourceSprite;
+    public Sprite gunpowderSprite;
 }

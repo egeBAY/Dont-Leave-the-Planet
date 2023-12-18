@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5306874668285905181}
   - component: {fileID: 3785804040322763181}
+  - component: {fileID: 2672412171830769248}
+  - component: {fileID: 579004449235573631}
   - component: {fileID: 5306874668285905180}
   - component: {fileID: 5306874668285905251}
   - component: {fileID: 5306874668285905250}
@@ -57,6 +59,35 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &2672412171830769248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306874668285905182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816f98159d1ec994ca45064faa26a63e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 3
+--- !u!114 &579004449235573631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306874668285905182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab83a9938f6c2d4c8e7efe691c99289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droppedItemPf: {fileID: 4258236831810019114, guid: 1e7673a393f35f24b8bd793fec37dc7f, type: 3}
+  lootList:
+  - {fileID: 11400000, guid: 70dbc9dd641bd3d4daa7d2a58428b48d, type: 2}
+  - {fileID: 11400000, guid: a24fe411411adc7479df77cfd22f6326, type: 2}
 --- !u!212 &5306874668285905180
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -97,7 +128,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 46bc7083e1d8d724783ef1e648580df8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -143,7 +174,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5306874668285905182}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -155,7 +186,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &1945375008702959173
 Animator:
   serializedVersion: 5

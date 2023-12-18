@@ -5,14 +5,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private LayerMask groundLayer;
 
     public float playerSpeed = 1f;
     public float jumpHeight = 1f;
-
+    
     private Rigidbody2D body;
     private Animator animator;
-    private float moveInput;
     private bool onGround;
+    bool isGroundedCheckStop = false;
+    Vector2 movementVector = Vector2.zero;
 
     private void Awake()
     {
@@ -20,54 +22,82 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        Move();
+        movementVector.x = UserInput.instance_.MoveInput.x * playerSpeed;
+
+        HandleSpriteDirection();
+
+        HandleGroundedCheck();
+
         SetAnimations();
     }
 
-    private void Move()
+    private void FixedUpdate()
     {
-        moveInput = UserInput.instance_.MoveInput.x;
+        SetAnimations();
 
-        // Movement with transform
-        // transform.Translate(moveInput * playerSpeed, 0f, 0f); 
-        // Movement with rigidbody
-        if (moveInput > 0)
-            transform.localScale = new Vector3(-0.75f, 0.75f, 1f);
-        else if(moveInput < 0)
-            transform.localScale = new Vector3(0.75f, 0.75f, 1f);
-        
-        body.velocity = new Vector2(moveInput * playerSpeed, body.velocity.y);
-        
+        if (!onGround)
+            movementVector.y += Physics2D.gravity.y * Time.fixedDeltaTime;
+
+        body.MovePosition(body.position + movementVector * Time.fixedDeltaTime);
     }
 
-    public void Jump(InputAction.CallbackContext context)
+    private void HandleSpriteDirection()
     {
-        if (context.performed)
+        if (movementVector.x > 0)
+            transform.localScale = new Vector3(-0.75f, 0.75f, 1f);
+        else if (movementVector.x < 0)
+            transform.localScale = new Vector3(0.75f, 0.75f, 1f);
+    }
+
+    public void HandleJumpInput(InputAction.CallbackContext context)
+    {
+        if (context.performed && onGround)
         {
-            if (onGround)
-            {
-                body.velocity = new Vector2(body.velocity.x, jumpHeight);
-                animator.SetTrigger("jump");
-                onGround = false;
-            }
+            //body.velocity = new Vector2(body.velocity.x, jumpHeight);
+            animator.SetTrigger("jump");
+            onGround = false;
+            isGroundedCheckStop = true;
+            movementVector.y = jumpHeight;
+            StartCoroutine(ResetGroundedCheckStop());
+
         }
-        
-        
+    }
+
+    private void HandleGroundedCheck()
+    {
+        onGround = IsGrounded();
+
+        if (onGround)
+        {
+            //animator.SetBool("Jumping", false);
+            //animator.SetFloat("InputX", Mathf.Abs(movementVector.x));
+            movementVector.y = 0;
+        }
     }
 
     private void SetAnimations()
     {
-        animator.SetBool("IsWalking", moveInput != 0);
+        animator.SetBool("IsWalking", movementVector.x != 0);
         animator.SetBool("OnGround", onGround);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private bool IsGrounded()
     {
-        if(collision.gameObject.tag == "Ground")
-        {   
-            onGround = true;
-        }
+
+        // Vector3 rayOffSet = new Vector3(0, -0.75f, 0);
+
+        if (isGroundedCheckStop)
+            return false;
+        RaycastHit2D result = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, groundLayer);
+        return result.collider != null;
+    }
+
+
+    private IEnumerator ResetGroundedCheckStop()
+    {
+        yield return new WaitForSeconds(0.1f);
+        isGroundedCheckStop = false;
     }
 }
